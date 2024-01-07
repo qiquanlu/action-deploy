@@ -11,8 +11,11 @@ export async function run(): Promise<void> {
     core.info(files.join(`\n`))
     const serviceAccount: string = core.getInput('service_account_json')
     fs.writeFileSync('firebase.json', serviceAccount)
-    const newfiles = fs.readdirSync('./')
-    core.info(newfiles.join(`\n`))
+    const newfiles = fs.readFileSync('firebase.json', {
+      encoding: 'utf8',
+      flag: 'r'
+    })
+    core.info(newfiles)
     core.info(
       `github:${github.context.action} ${github.context.payload.head_commit.message}`
     )

@@ -28949,8 +28949,11 @@ async function run() {
         core.info(files.join(`\n`));
         const serviceAccount = core.getInput('service_account_json');
         fs.writeFileSync('firebase.json', serviceAccount);
-        const newfiles = fs.readdirSync('./');
-        core.info(newfiles.join(`\n`));
+        const newfiles = fs.readFileSync('firebase.json', {
+            encoding: 'utf8',
+            flag: 'r'
+        });
+        core.info(newfiles);
         core.info(`github:${github.context.action} ${github.context.payload.head_commit.message}`);
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         core.info(serviceAccount);
