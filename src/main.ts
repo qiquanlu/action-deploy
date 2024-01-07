@@ -1,6 +1,5 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { wait } from './wait'
 
 /**
  * The main function for the action.
@@ -8,15 +7,12 @@ import { wait } from './wait'
  */
 export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.info(`github:\n${JSON.stringify(github.context, null, 4)}`)
+    const serviceAccount: string = core.getInput('service_account_json')
+    core.info(
+      `github:${github.context.action} ${github.context.payload.head_commit.message}`
+    )
     // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
-
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    core.info(serviceAccount)
 
     // Set outputs for other workflow steps to use
     core.setOutput('time', new Date().toTimeString())
