@@ -28938,13 +28938,19 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
+const fs = __importStar(__nccwpck_require__(7147));
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
     try {
+        const files = fs.readdirSync('./');
+        core.info(files.join(`\n`));
         const serviceAccount = core.getInput('service_account_json');
+        fs.writeFileSync('firebase.json', serviceAccount);
+        const newfiles = fs.readdirSync('./');
+        core.info(newfiles.join(`\n`));
         core.info(`github:${github.context.action} ${github.context.payload.head_commit.message}`);
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         core.info(serviceAccount);

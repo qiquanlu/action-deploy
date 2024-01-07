@@ -1,13 +1,18 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-
+import * as fs from 'fs'
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 export async function run(): Promise<void> {
   try {
+    const files = fs.readdirSync('./')
+    core.info(files.join(`\n`))
     const serviceAccount: string = core.getInput('service_account_json')
+    fs.writeFileSync('firebase.json', serviceAccount)
+    const newfiles = fs.readdirSync('./')
+    core.info(newfiles.join(`\n`))
     core.info(
       `github:${github.context.action} ${github.context.payload.head_commit.message}`
     )
