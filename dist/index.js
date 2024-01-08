@@ -30181,7 +30181,7 @@ async function run() {
         core.info(files.join(`\n`));
         const serviceAccount = core.getInput('service_account_json');
         fs.writeFileSync('firebase.json', serviceAccount);
-        await exec.exec('npx firebase projects:list');
+        await exec.exec('npx firebase-tools projects:list');
         const newfiles = fs.readFileSync('firebase.json', {
             encoding: 'utf8',
             flag: 'r'
