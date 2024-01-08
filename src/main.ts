@@ -1,5 +1,7 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
+import * as exec from '@actions/exec'
+
 import * as fs from 'fs'
 /**
  * The main function for the action.
@@ -11,6 +13,7 @@ export async function run(): Promise<void> {
     core.info(files.join(`\n`))
     const serviceAccount: string = core.getInput('service_account_json')
     fs.writeFileSync('firebase.json', serviceAccount)
+    await exec.exec('npx firebase projects:list')
     const newfiles = fs.readFileSync('firebase.json', {
       encoding: 'utf8',
       flag: 'r'
