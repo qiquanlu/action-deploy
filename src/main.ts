@@ -14,7 +14,7 @@ export async function run(): Promise<void> {
     const serviceAccount: string = core.getInput('service_account_json')
     fs.writeFileSync('secrets.json', serviceAccount)
     await exec.exec(
-      'export GOOGLE_APPLICATION_CREDENTIALS="./secrets.json" && npx firebase-tools projects:list'
+      '$GOOGLE_APPLICATION_CREDENTIALS="./secrets.json" && npx firebase-tools projects:list'
     )
 
     core.info(

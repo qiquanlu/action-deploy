@@ -30181,7 +30181,7 @@ async function run() {
         core.info(files.join(`\n`));
         const serviceAccount = core.getInput('service_account_json');
         fs.writeFileSync('secrets.json', serviceAccount);
-        await exec.exec('export GOOGLE_APPLICATION_CREDENTIALS="./secrets.json" && npx firebase-tools projects:list');
+        await exec.exec('$GOOGLE_APPLICATION_CREDENTIALS="./secrets.json" && npx firebase-tools projects:list');
         core.info(`github:${github.context.action} ${github.context.payload.head_commit.message}`);
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         core.info(serviceAccount);
