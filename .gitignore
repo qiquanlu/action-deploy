@@ -102,3 +102,6 @@ firebase.json
 .idea
 .vscode
 *.code-workspace
+
+secrets.json
+firebase.json

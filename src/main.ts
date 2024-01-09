@@ -12,13 +12,11 @@ export async function run(): Promise<void> {
     const files = fs.readdirSync('./')
     core.info(files.join(`\n`))
     const serviceAccount: string = core.getInput('service_account_json')
-    fs.writeFileSync('firebase.json', serviceAccount)
-    await exec.exec('npx firebase-tools projects:list')
-    const newfiles = fs.readFileSync('firebase.json', {
-      encoding: 'utf8',
-      flag: 'r'
-    })
-    core.info(newfiles)
+    fs.writeFileSync('secrets.json', serviceAccount)
+    await exec.exec(
+      'export GOOGLE_APPLICATION_CREDENTIALS="./secrets.json" && npx firebase-tools projects:list'
+    )
+
     core.info(
       `github:${github.context.action} ${github.context.payload.head_commit.message}`
     )
