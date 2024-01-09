@@ -13,9 +13,11 @@ export async function run(): Promise<void> {
     core.info(files.join(`\n`))
     const serviceAccount: string = core.getInput('service_account_json')
     fs.writeFileSync('secrets.json', serviceAccount)
-    await exec.exec(
-      '$GOOGLE_APPLICATION_CREDENTIALS="./secrets.json" && npx firebase-tools projects:list'
-    )
+    await exec.exec('npx firebase-tools projects:list', [], {
+      env: {
+        GOOGLE_APPLICATION_CREDENTIALS: './secrets.json'
+      }
+    })
 
     core.info(
       `github:${github.context.action} ${github.context.payload.head_commit.message}`
